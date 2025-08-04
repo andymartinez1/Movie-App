@@ -8,9 +8,9 @@ namespace MovieApp.Controllers;
 
 public class TelevisionShowController : Controller
 {
-    private readonly TelevisionShowContext _context;
+    private readonly MovieContext _context;
 
-    public TelevisionShowController(TelevisionShowContext context)
+    public TelevisionShowController(MovieContext context)
     {
         _context = context;
     }
@@ -18,12 +18,12 @@ public class TelevisionShowController : Controller
     // GET: TelevisionSeries
     public async Task<IActionResult> Index(string televisionGenre, string searchString)
     {
-        if (_context.Show == null)
+        if (_context.Shows == null)
             return Problem("Entity set 'MvcMovieContext.Movie'  is null.");
 
         // Use LINQ to get list of genres.
-        IQueryable<string> genreQuery = from m in _context.Show orderby m.Genre select m.Genre;
-        var shows = from m in _context.Show select m;
+        IQueryable<string> genreQuery = from m in _context.Shows orderby m.Genre select m.Genre;
+        var shows = from m in _context.Shows select m;
 
         if (!string.IsNullOrEmpty(searchString))
             shows = shows.Where(s => s.Title!.ToUpper().Contains(searchString.ToUpper()));
@@ -46,7 +46,7 @@ public class TelevisionShowController : Controller
         if (id == null)
             return NotFound();
 
-        var televisionSeries = await _context.Show.FirstOrDefaultAsync(m => m.Id == id);
+        var televisionSeries = await _context.Shows.FirstOrDefaultAsync(m => m.Id == id);
         if (televisionSeries == null)
             return NotFound();
 
@@ -84,7 +84,7 @@ public class TelevisionShowController : Controller
         if (id == null)
             return NotFound();
 
-        var televisionSeries = await _context.Show.FindAsync(id);
+        var televisionSeries = await _context.Shows.FindAsync(id);
         if (televisionSeries == null)
             return NotFound();
         return View(televisionSeries);
@@ -130,7 +130,7 @@ public class TelevisionShowController : Controller
         if (id == null)
             return NotFound();
 
-        var televisionSeries = await _context.Show.FirstOrDefaultAsync(m => m.Id == id);
+        var televisionSeries = await _context.Shows.FirstOrDefaultAsync(m => m.Id == id);
         if (televisionSeries == null)
             return NotFound();
 
@@ -143,9 +143,9 @@ public class TelevisionShowController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
-        var televisionSeries = await _context.Show.FindAsync(id);
+        var televisionSeries = await _context.Shows.FindAsync(id);
         if (televisionSeries != null)
-            _context.Show.Remove(televisionSeries);
+            _context.Shows.Remove(televisionSeries);
 
         await _context.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
@@ -153,6 +153,6 @@ public class TelevisionShowController : Controller
 
     private bool TelevisionSeriesExists(int id)
     {
-        return _context.Show.Any(e => e.Id == id);
+        return _context.Shows.Any(e => e.Id == id);
     }
 }

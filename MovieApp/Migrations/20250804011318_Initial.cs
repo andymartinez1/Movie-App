@@ -6,13 +6,13 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace MovieApp.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialTVShow : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Show",
+                name: "Movie",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -25,7 +25,24 @@ namespace MovieApp.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Show", x => x.Id);
+                    table.PrimaryKey("PK_Movie", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Shows",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: true),
+                    ReleaseDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Genre = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Rating = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Shows", x => x.Id);
                 });
         }
 
@@ -33,7 +50,10 @@ namespace MovieApp.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Show");
+                name: "Movie");
+
+            migrationBuilder.DropTable(
+                name: "Shows");
         }
     }
 }

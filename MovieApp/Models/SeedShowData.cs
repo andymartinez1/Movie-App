@@ -8,16 +8,16 @@ public static class SeedShowData
     public static void InitializeShows(IServiceProvider serviceProvider)
     {
         using (
-            var context = new TelevisionShowContext(
-                serviceProvider.GetRequiredService<DbContextOptions<TelevisionShowContext>>()
+            var context = new MovieContext(
+                serviceProvider.GetRequiredService<DbContextOptions<MovieContext>>()
             )
         )
         {
             // Look for any shows
-            if (context.Show.Any())
+            if (context.Shows.Any())
                 return;
 
-            context.Show.AddRange(
+            context.Shows.AddRange(
                 new TelevisionShow
                 {
                     Title = "Chespirito: Not Really on Purpose",

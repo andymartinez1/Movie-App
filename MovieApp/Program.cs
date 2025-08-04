@@ -4,14 +4,6 @@ using MovieApp.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<TelevisionShowContext>(options =>
-    options.UseSqlServer(
-        builder.Configuration.GetConnectionString("TelevisionSeriesContext")
-            ?? throw new InvalidOperationException(
-                "Connection string 'TelevisionSeriesContext' not found."
-            )
-    )
-);
 builder.Services.AddDbContext<MovieContext>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("MovieAppContext")
@@ -47,6 +39,6 @@ app.UseAuthorization();
 
 app.MapStaticAssets();
 
-app.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}").WithStaticAssets();
+app.MapControllerRoute("default", "{controller=Movies}/{action=Index}/{id?}").WithStaticAssets();
 
 app.Run();
